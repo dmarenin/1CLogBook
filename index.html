@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- <link rel="stylesheet" href="/logbook/style/bootstrap/css/bootstrap.min.css"> -->
+
+    <link type="text/css" rel="stylesheet"      href="/logbook/style/main.css">
+    <link type="text/css" rel="stylesheet"      href="/logbook/style/jquery-ui/jquery-ui.css">
+	<link type="text/css" rel="stylesheet"      href="/logbook/style/fonts.css">
+	<link type="text/css" rel="stylesheet"      href="/logbook/style/fullcalendar.min.css">
+    <!--
+	<link type="text/css" rel="stylesheet"      href="/logbook/style/fullcalendar.print.css">
+    -->
+
+    <script type="text/javascript" src="/logbook/js/dist/jquery.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/jquery-ui.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/jquery.maskedinput.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/jquery-jtemplates_uncompressed.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/moment.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/excellentexport.js"></script>
+
+    <!-- <script type="text/javascript" src="/logbook/style/bootstrap/js/bootstrap.min.js"></script> -->
+
+    <!--
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="/logbook/js/angular.js"></script>
+    -->
+
+    <script type="text/javascript" src="/logbook/js/main.js"></script>
+    <script type="text/javascript" src="/logbook/js/dist/datepicker-ru.js"></script>
+	<title>LogBook - просмотр истории изменений документов</title>
+</head>
+<body>
+	<script>
+		$(function() {
+			$("#datepicker").datepicker();
+			$("#datepickerTW").datepicker();
+		});
+	</script>
+	<div class="filterBlock">
+
+		<div class="toExcelTBlock"><img src=/logbook/images/excel.png class="excelimg" /> <a onclick="return ExcellentExport.excel(this, 'LBTable', 'Log Book');" download="logbook.xls">Выгрузить в Excel</a></div>
+
+		<form action="" class="lb-form">
+			<div class="formdiv dstart">
+				<div class="fd-datename">Дата изменения</div>
+				<label for="ddate">с</label>
+				<input type="text" name="ddatestart" class="docdatestart" id="datepicker">
+			</div>
+			<div class="formdiv dend">
+				<label for="ddate">до</label>
+				<input type="text" name="ddateend" class="docdateend" id="datepickerTW">
+			</div>
+			<br /><br />
+			<div style="float: none; clear: both;"></div>
+			<div class="formdiv">
+				<label for="dtype">Тип данных</label>
+				<select name="dtype" id="dtypeSel" class="doctype"></select>
+			</div>
+			<div class="formdiv">
+				<label for="dname">Вид данных</label>
+	            <select name="dname" id="dnameSel" class="ddocview""></select>
+			</div>
+			<div class="formdiv">
+				<label for="dnum">Номер, код</label>
+				<input type="text" name="dnum" class="docnum">
+			</div>
+			<div class="formdiv obj" style="display: none;">
+				<label for="dobj">Объект</label>
+				<select name="dobj" id="dobjSel" class="docobj"></select>
+			</div>
+		</form>
+	
+		<div class="formdiv subm" style="display: none;">
+			<button class="docsubmit">Показать</button>
+		</div>
+		<div style="float: none; clear: both;"></div>
+	</div>
+
+    <!-- Загрузка -->
+    <div id="wheel" style="display:none;">
+        <div class="loading">
+            <img src=/logbook/images/loading.gif />
+        </div>
+    </div>
+	
+	<div class="infoBlock">
+		<div class="infoBlockIn">
+			История изменения объекта: <span class="ib-obj-name"></span>
+		</div>
+	</div>
+
+	<div class="contextBlock"></div>
+
+	<div class="tableBlock">
+		<table class="m-table" cellspacing="0" id="LBTable">
+			<thead>
+				<tr class="mt-tr" style="opacity:0;">
+					<th class="mt-th" colspan="8">История изменения объекта: <span class="ib-obj-name"></span></th>
+				</tr>
+				<tr class="mt-tr">
+					<th class="mt-th">Дата изменения</th>
+					<th class="mt-th">Пользователь</th>
+					<th class="mt-th">Компьютер</th>
+					<th class="mt-th">Объект</th>
+					<th class="mt-th">Данные</th>
+					<th class="mt-th">Комментарий</th>
+					<th class="mt-th">Событие</th>
+					<th class="mt-th">Приложение</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- <tr class="mt-tr">
+					<td class="mt-td">дата</td>
+					<td class="mt-td">имя</td>
+					<td class="mt-td">компьютер</td>
+					<td class="mt-td">польз.</td>
+					<td class="mt-td">раз.два</td>
+					<td class="mt-td">ком.</td>
+				</tr> -->
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

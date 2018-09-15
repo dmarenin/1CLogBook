@@ -1,0 +1,34 @@
+@font-face {
+font-family:Roboto;
+font-style:normal;
+font-weight:400;
+src:url(/static/fonts/RobotoRegular/RobotoRegular.eot?#iefix) format("embedded-opentype"),url(/static/fonts/RobotoRegular/RobotoRegular.woff) format("woff"),url(/static/fonts/RobotoRegular/RobotoRegular.ttf) format("truetype")
+}
+@font-face {
+font-family:Roboto;
+font-style:normal;
+font-weight:700;
+src:url(/static/fonts/RobotoBold/RobotoBold.eot?#iefix) format("embedded-opentype"),url(/static/fonts/RobotoBold/RobotoBold.woff) format("woff"),url(/static/fonts/RobotoBold/RobotoBold.ttf) format("truetype")
+}
+@font-face {
+font-family:Roboto-thin;
+font-style:normal;
+font-weight:400;
+src:url(/static/fonts/RobotoThin/Roboto-Thin.ttf) format("truetype")
+}
+@font-face {
+font-family:RobotoLight;
+font-style:normal;
+font-weight:400;
+src:url(/static/fonts/RobotoLight/RobotoLight.eot?#iefix) format("embedded-opentype"),url(/static/fonts/RobotoLight/RobotoLight.woff) format("woff"),url(/static/fonts/RobotoLight/RobotoLight.ttf) format("truetype")
+}
+@font-face {
+font-family:RobotoMedium;
+font-style:normal;
+font-weight:400;
+src:url(/static/fonts/RobotoMedium/RobotoMedium.eot?#iefix) format("embedded-opentype"),url(/static/fonts/RobotoMedium/RobotoMedium.woff) format("woff"),url(/static/fonts/RobotoMedium/RobotoMedium.ttf) format("truetype")
+}
+@font-face {
+font-family:Glyphicons Halflings;
+src:url(/static/fonts/glyphicons-halflings-regular.ttf) format("truetype")
+}
