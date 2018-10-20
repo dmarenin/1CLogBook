@@ -1,17 +1,38 @@
+#import peewee
+
+#import json
 from datetime import datetime
 from datetime import timedelta
+
+#import os
+#import orm.fields
+#import gevent
+#import threading
+## from call import Call # TODO loopback!
+
+#import inspect
+
+## import asyncio
 
 import pymssql, base64, sys, json, time
 
 def get_mssql_conn():
     
-    conn = pymssql.connect(server='', user='sa', password='', database='ExLogBook2')  
+    conn = pymssql.connect(server='itts', user='sa', password='Aa123456', database='ExLogBook2')  
     cursor = conn.cursor()  
 
     return cursor
 
 def api_log_get_meta_data(qs):
+   
+    #res = (OrgCRM
+    #    .select(OrgCRM.ref, OrgCRM.name)
+    #    .where(OrgCRM.mark == False)
+    #    .where(OrgCRM.show == True))
 
+    #res = res.dicts()
+    #return list(res) 
+   
     d = []
 
     cursor = get_mssql_conn()
@@ -25,10 +46,15 @@ def api_log_get_meta_data(qs):
 
         row = cursor.fetchone()  
 
+    #return sorted(d, key=lambda e: e['name'])
     return d
 
 def api_log_get_event_objs(qs):
     
+    #in:
+    #metadata_id
+    #data_string
+     
     d = []
 
     query_text = 'SELECT DISTINCT [DataString], [DataStructure], [ref_ones] FROM [ExLogBook2].[dbo].[v_Events] WHERE [InfobaseCode]=1 %data_string% %metadata_id% %date_start% %date_end%'
@@ -77,6 +103,11 @@ def api_log_get_event_objs(qs):
 
 def api_log_get_results(qs):
    
+    #in:
+    #data_structure
+    #data_string    
+    ##data_string
+
     d = []
 
     query_text = 'SELECT [DateTime], [Comment], [DataString], [DataStructure], [UsersName], [ComputerName], [MetadataName], [EventTypeName], [ApplicationName], [EventType], [EventID], [TransactionStatus] FROM [ExLogBook2].[dbo].[v_Events] WHERE [InfobaseCode]=1 %data_structure% %data_string% %metadata_id% %ref_ones% %date_start% %date_end%'
@@ -146,6 +177,11 @@ def callback(path, qs, self):
 
 def api_log_get_result_mod_zn(qs):
    
+    #in:
+    #data_structure
+    #data_string    
+    ##data_string
+
     d = []
 
     query_text = 'SELECT DISTINCT DataString, UsersName, mod_post_doc, ref_ones, var_1, var_2, var_3, var_4 FROM (SELECT [DateTime], [Comment], [DataString], [DataStructure], [UsersName], [ComputerName], [MetadataName], [EventTypeName], [ApplicationName], [EventType], [EventID], [TransactionStatus], CASE WHEN [Comment] like \'%'+'Статус проведения документа до изменения:Да'+'%\' THEN 1 ELSE 0 END AS mod_post_doc, [ref_ones], CASE WHEN [Comment] like \'%<Контрагент>:%\' AND [Comment] like \'%<Автомобиль>:%\'THEN 1 ELSE 0 END AS var_1, CASE WHEN [Comment] like \'%<Автомобиль>:%\'THEN 1 ELSE 0 END AS var_2, CASE WHEN [Comment] like \'%<Контрагент>:%\'THEN 1 ELSE 0 END AS var_3, CASE WHEN [Comment] like \'%Таблица товаров до записи:%\' THEN 1 ELSE 0 END AS var_4 FROM [ExLogBook2].[dbo].[v_Events] WHERE [InfobaseCode]=1 and ([Comment] like \'%'+'Измененнные реквизиты шапки до записи:'+'%\' or [Comment] like \'%+'+'Таблица товаров до записи:'+ '%\' or [Comment] like \'%'+'Статус проведения документа до изменения:%\') %metadata_id% %date_start% %date_end% ) AS T1 WHERE (T1.mod_post_doc=0 and (T1.var_1=1 or T1.var_2=1 or T1.var_3=1)) or (T1.mod_post_doc=1 and T1.var_4=1)  order by var_1 desc, var_2 desc, var_3 desc, var_4 desc '
