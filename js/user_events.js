@@ -86,11 +86,11 @@ var dTypeList = [], dViewList = [], dObjList = [], dTypeListND = []
 //fill dtypeSel select
 function fillDType(dTypeList)
 {
-  $('select#dtypeSel').empty(); //clear
-  $('select#dtypeSel').append($('<option>', { value: "0", text : "-- не выбран --"}));
+  $('select#duserSel').empty(); //clear
+  $('select#duserSel').append($('<option>', { value: "0", text : "-- не выбран --"}));
   $.each(dTypeList, function (i, item) {
     if (typeof item !== "undefined" && item.length > 0) {
-      $('select#dtypeSel').append($('<option>', { 
+      $('select#duserSel').append($('<option>', { 
         value: i,
         text : item 
       }));
@@ -101,11 +101,11 @@ function fillDType(dTypeList)
 //fill dnameSel select
 function fillDName(dViewList)
 {
-  $('select#dnameSel').empty(); //clear
-  $('select#dnameSel').append($('<option>', { value: "0", text : "-- не выбран --"}));
+  $('select#deventSel').empty(); //clear
+  $('select#deventSel').append($('<option>', { value: "0", text : "-- не выбран --"}));
   $.each(dViewList, function (i, item) {
     if (typeof item !== "undefined" && item.length > 0) {
-      $('select#dnameSel').append($('<option>', { 
+      $('select#deventSel').append($('<option>', { 
         value: i,
         text : item 
       }));
@@ -160,7 +160,7 @@ dataDB
 	  
 		//get matadata
 		let data
-		data = api_call('log_get_meta_data', {"db":$('select#dtypeDB option:selected').val()}, true, true)
+		data = api_call('log_get_users', {"db":$('select#dtypeDB option:selected').val()}, true, true)
 
 		//dump(data)
 
@@ -173,9 +173,9 @@ dataDB
 				if (typeof result[i]['name'] !== 'undefined') {
 				  var elName = result[i]['name']
 				  var elCode = result[i]['code']
-				  var elName = elName.toString().split(".")
-				  dTypeList[elCode.toString()] = elName[0]
-				  dViewList[elCode.toString()] = elName[1]
+				  //var elName = elName.toString()//.split(".")
+				  dTypeList[elCode.toString()] = elName
+				  //dViewList[elCode.toString()] = elName[1]
 				}
 			  }
 			  
@@ -189,7 +189,51 @@ dataDB
 			  //dump(dViewList)
 			  //fill type & view
 			  fillDType(dTypeListND)
-			  fillDName(dViewList)
+			  //fillDName(dViewList)
+			  
+			  //get matadata
+		let data
+		data = api_call('log_get_events', {"db":$('select#dtypeDB option:selected').val()}, true, true)
+
+		//dump(data)
+
+		data
+		  .then(
+			result => {
+			  //dump(result)
+			  //parse type & view
+			  for (var i in result) {
+				if (typeof result[i]['name'] !== 'undefined') {
+				  var elName = result[i]['name']
+				  var elCode = result[i]['code']
+				  //var elName = elName.toString()//.split(".")
+				  //dTypeList[elCode.toString()] = elName[0]
+				  dViewList[elCode.toString()] = elName
+				}
+			  }
+			  
+			  //del types dubl (Not Dubls)
+			  //contains(a, obj)
+			  for (var i in dTypeList) {
+				if (!contains(dTypeListND, dTypeList[i])) { dTypeListND[i] = dTypeList[i] }
+			  }
+			  
+			  //dump(dTypeList)
+			  //dump(dViewList)
+			  //fill type & view
+			  fillDType(dTypeListND)
+			  //fillDName(dViewList)
+			  
+			  
+			  
+			},
+			error => {
+			  //dump("Rejected: " + error)
+			  alert("Ошибка при запросе данных от БД.");
+			}
+		  );
+			  
+			  
 			},
 			error => {
 			  //dump("Rejected: " + error)
@@ -231,13 +275,13 @@ $(function() {
         }
         
       });
-      fillDName(dViewListTMP)
+      //fillDName(dViewListTMP)
       //$('select[name="dname"]').val(eVal);
     }
     else
     {
       //fillDType(dTypeList)
-      fillDName(dViewList)
+      //fillDName(dViewList)
     }
   });
   
@@ -267,7 +311,7 @@ $(function() {
 	  
 		//get matadata
 		let data
-		data = api_call('log_get_meta_data', {"db":$('select#dtypeDB option:selected').val()}, true, true)
+		data = api_call('log_get_users', {"db":$('select#dtypeDB option:selected').val()}, true, true)
 
 		//dump(data)
 
@@ -280,9 +324,9 @@ $(function() {
 				if (typeof result[i]['name'] !== 'undefined') {
 				  var elName = result[i]['name']
 				  var elCode = result[i]['code']
-				  var elName = elName.toString().split(".")
-				  dTypeList[elCode.toString()] = elName[0]
-				  dViewList[elCode.toString()] = elName[1]
+				  //var elName = elName.toString().split(".")
+				  dTypeList[elCode.toString()] = elName
+				  //dViewList[elCode.toString()] = elName[1]
 				}
 			  }
 			  
@@ -296,7 +340,49 @@ $(function() {
 			  //dump(dViewList)
 			  //fill type & view
 			  fillDType(dTypeListND)
+			  //fillDName(dViewList)
+			  
+			  let data
+		data = api_call('log_get_events', {"db":$('select#dtypeDB option:selected').val()}, true, true)
+
+		//dump(data)
+
+		data
+		  .then(
+			result => {
+			  //dump(result)
+			  //parse type & view
+			  for (var i in result) {
+				if (typeof result[i]['name'] !== 'undefined') {
+				  var elName = result[i]['name']
+				  var elCode = result[i]['code']
+				  //var elName = elName.toString().split(".")
+				  //dTypeList[elCode.toString()] = elName[0]
+				  dViewList[elCode.toString()] = elName
+				}
+			  }
+			  
+			  //del types dubl (Not Dubls)
+			  //contains(a, obj)
+			  for (var i in dTypeList) {
+				if (!contains(dTypeListND, dTypeList[i])) { dTypeListND[i] = dTypeList[i] }
+			  }
+			  
+			  //dump(dTypeList)
+			  //dump(dViewList)
+			  //fill type & view
+			  //fillDType(dTypeListND)
 			  fillDName(dViewList)
+			  
+			  
+			  
+			},
+			error => {
+			  //dump("Rejected: " + error)
+			  alert("Ошибка при запросе данных от БД.");
+			}
+		  );
+			  
 			},
 			error => {
 			  //dump("Rejected: " + error)
@@ -407,13 +493,20 @@ function fillMTable(data)
 
 //on submit form
 $(document).on("click","button.docsubmit", function(){
-  let objVal = $('select#dobjSel').val();
+//  let objVal = $('select#dobjSel').val();
   
-  if (!objVal || objVal.length < 2) return false;
+//  if (!objVal || objVal.length < 2) return false;
   
   //get result list
   let dataGR
-  dataGR = api_call('log_get_results', {"db":$('select#dtypeDB option:selected').val(), "ref_ones" : objVal, "date_start" : $('form.lb-form input[name="ddatestart"]').val(), "date_end" : $('form.lb-form input[name="ddateend"]').val()}, true, true)
+  dataGR = api_call('log_get_user_results', {
+	  
+	  "db":$('select#dtypeDB option:selected').val(), 
+	  "user" : $('#duserSel option:selected').text(), 
+	  "event" : $('select#deventSel option:selected').val(), 
+	  
+	  "date_start" : $('form.lb-form input[name="ddatestart"]').val(), 
+	  "date_end" : $('form.lb-form input[name="ddateend"]').val()}, true, true)
   
   dataGR
   .then(
